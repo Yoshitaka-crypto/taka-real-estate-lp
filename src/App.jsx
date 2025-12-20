@@ -1,289 +1,573 @@
+import { useState } from 'react'
+import takaImage from './assets/taka.png'
+
 function App() {
+  const [formData, setFormData] = useState({
+    name: '',
+    contact: '',
+    category: '',
+    message: ''
+  })
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // ========== 表示切り替えフラグ ==========
+  // メール相談を表示するか（false = LINE相談のみ表示）
+  // 将来メール相談を復活させる場合は true に変更
+  const showMailForm = false
+
+  // メール送信先（※メール相談を有効にする際はここを実際のメールアドレスに変更）
+  const CONTACT_EMAIL = 'your-email@example.com'
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          お名前: formData.name,
+          連絡先: formData.contact,
+          相談カテゴリ: formData.category,
+          ご相談内容: formData.message || '（未入力）',
+          _subject: '【困った不動産お悩み相談室】新しいお問い合わせ',
+        })
+      })
+      
+      if (response.ok) {
+        setIsSubmitted(true)
+      } else {
+        alert('送信に失敗しました。お手数ですがLINEからお問い合わせください。')
+      }
+    } catch (error) {
+      alert('送信に失敗しました。お手数ですがLINEからお問い合わせください。')
+    }
+  }
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  // PageContainer（920px）
+  const pageContainer = "mx-auto w-full max-w-[920px] px-4 sm:px-6"
+  
+  // ReadableContainer（720px）
+  const readableContainer = "mx-auto w-full max-w-[720px] px-4 sm:px-6"
+  
+  // セクション内の余白（呼吸：gapが主役なので控えめに）
+  const sectionPadding = "py-10 sm:py-14"
+  
+  // 共通カードスタイル（見た目のみ：幅統一 + rounded/border/bg/shadow/backdrop-blur/padding）
+  const cardItem = 
+    "max-w-[720px] mx-auto rounded-[28px] border border-[#062447]/25 " +
+    "bg-white/40 backdrop-blur-md shadow-[0_14px_40px_rgba(6,36,71,0.10)] " +
+    "px-6 sm:px-10 py-6 sm:py-8"
+  
+  // カードスタック（並べ方のみ：縦の間隔を管理）
+  const cardStack = "max-w-[720px] mx-auto space-y-6 sm:space-y-8"
+  
+  // 大きめカード（フォーム等）
+  const largeCard = "bg-white/[0.62] border border-white/[0.38] rounded-[20px] shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-5 sm:p-7"
+
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans w-full overflow-x-hidden">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="font-bold text-xl text-gray-800">不動産お悩み相談室</div>
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#problems" className="text-gray-600 hover:text-blue-600">お悩みの方へ</a>
-            <a href="#features" className="text-gray-600 hover:text-blue-600">サービスの特徴</a>
-            <a href="#about" className="text-gray-600 hover:text-blue-600">運営者について</a>
-            <a href="#faq" className="text-gray-600 hover:text-blue-600">よくある質問</a>
-          </nav>
-          <a
-            href="#contact"
-            className="hidden md:inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-          >
-            無料相談
-          </a>
+    <div className="min-h-screen bg-gradient-to-b from-[#E8F6FF] via-[#C5E4FF] to-[#1E5AA8] text-[#062447]">
+      
+      {/* ========== Header ========== */}
+      <header className="bg-white/70 backdrop-blur-xl sticky top-0 z-40 border-b border-blue-900/10">
+        <div className={pageContainer}>
+          <div className="flex justify-between items-center py-4">
+            <div className="font-bold text-lg text-[#062447]">困った不動産のお悩み相談室</div>
+            <a
+              href="https://line.me/ti/p/AbtvfPG8Wt"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm bg-gradient-to-r from-emerald-500 to-green-400 text-white px-5 py-2.5 rounded-full font-medium shadow-lg shadow-green-500/20 hover:brightness-105 transition"
+            >
+              💬 LINEで相談する
+            </a>
+          </div>
         </div>
       </header>
-      
-      {/* Hero */}
-      <section className="relative bg-cover bg-center text-white" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=2400&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-40 text-center">
-          <p className="text-sm tracking-widest text-gray-300 mb-4">
-            不動産お悩み相談室
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-shadow-white-md">
-            専門家を入れずに、<br />
-            寄り添って伴走する不動産相談
-          </h1>
-          <p className="text-lg text-gray-200 mb-10 max-w-2xl mx-auto">
-            売る・買う・相続・借地・トラブル。
-            いきなり弁護士や業者に行く前に、
-            まず状況整理から一緒に進めます。
-          </p>
-          <a
-            href="#contact"
-            className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition"
-          >
-            無料で相談する
-          </a>
-        </div>
-      </section>
 
-      {/* Problems */}
-      <section id="problems" className="bg-white">
-        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">こんなお悩み、ありませんか？</h2>
-            <p className="text-gray-600 mt-4">一人で抱え込まず、まずは話してみることから始めましょう。</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-100 p-8 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">不動産の売却</h3>
-              <p className="text-gray-700">「いくらで売れるんだろう？」「どの会社に頼めばいいの？」「手続きが複雑そうで不安…」といった、売却に関するあらゆる疑問にお答えします。</p>
+      {/* ========== Hero / First View ========== */}
+      <section>
+        <div className={pageContainer}>
+          <div className="py-16 sm:py-24 text-center">
+            
+            {/* サブラベル */}
+            <p className="text-cyan-600 text-sm font-medium mb-4 tracking-wide">
+              無料相談｜中立・安心
+            </p>
+            
+            {/* ✅ Hero画像（コンテナ制約を外して全幅表示） */}
+            <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen mb-8">
+              <img
+                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=400&fit=crop&q=80"
+                alt="不動産相談イメージ"
+                className="mx-auto w-full max-w-none h-48 sm:h-64 md:h-72 object-cover"
+              />
             </div>
-            <div className="bg-gray-100 p-8 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">相続問題</h3>
-              <p className="text-gray-700">「親から相続したけど、どうすれば…」「兄弟で揉めたくない」「税金はどれくらいかかるの？」など、複雑な相続問題を整理します。</p>
-            </div>
-            <div className="bg-gray-100 p-8 rounded-lg">
-              <h3 className="text-xl font-bold mb-3">借地・空き家</h3>
-              <p className="text-gray-700">「地主さんとの交渉がうまくいかない」「遠方にある空き家の管理が大変」「活用方法がわからない」など、特殊なケースにも対応します。</p>
-            </div>
-          </div>
-        </div>
-      </section>
+            
+            {/* ✅ H1（色を濃紺で統一） */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#062447] leading-tight mb-4">
+              不動産の悩み、<br />
+              まず"整理"から。
+            </h1>
+            
+            {/* リード */}
+            <p className="text-[#062447]/70 text-base sm:text-lg leading-[1.85] mb-10 max-w-md mx-auto">
+              今すぐ決めなくて大丈夫。<br />
+              論点と順番を整える、無料相談です。
+            </p>
 
-      {/* Features */}
-      <section id="features" className="bg-gray-50">
-        <div className="mx-auto max-w-6xl px-6 sm:px-12 lg:px-16 py-20">
-          {/* 見出し */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              私たちの3つの特徴
-            </h2>
-            <p className="mt-4 text-gray-600">
-              特定の業者に偏らない、中立な立場からのアドバイスをお約束します。
+            {/* メインCTA */}
+            <div className="max-w-sm mx-auto mb-4">
+              <a
+                href="https://line.me/ti/p/AbtvfPG8Wt"
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full py-4 sm:py-5 text-lg font-bold text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
+              >
+                💬 LINEで相談する
+              </a>
+            </div>
+            <p className="text-[#062447]/50 text-xs">
+              営業なし ｜ 即日対応 ｜ お話を聞くだけOK
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* ★ ここが並列の本体 */}
-          <div className="grid gap-8 md:grid-cols-3">
-            {/* ① */}
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-900">
-                  1
+      {/* ========== メインコンテンツ（space-y でセクション間の外側余白を確保） ========== */}
+      <main className="flex flex-col space-y-16 sm:space-y-24 outline outline-4 outline-red-500">
+
+      {/* ========== こんなお悩みありませんか？ ========== */}
+      <section id="problems" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">Problems</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+                こんなお悩みありませんか？
+              </h2>
+            </div>
+
+            {/* 悩みカード：1項目ずつ独立 */}
+            <div className={cardStack}>
+              {[
+                '売るか住み続けるか、決めきれない',
+                '相続・共有名義で話が進まない',
+                '住宅ローン・住み替えの順番が分からない',
+                '業者に相談すると売り込まれそうで怖い',
+              ].map((item, i) => (
+                <div key={i} className={cardItem}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-cyan-500 text-lg font-bold flex-shrink-0">✓</span>
+                    <span className="text-[#062447]/90 leading-[1.85] text-[15px] sm:text-base">{item}</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    徹底的な状況整理
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                    複雑に絡み合った問題も、一つひとつ丁寧にヒアリング。
-                    何が問題で、どんな選択肢があるのかを可視化します。
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="text-center">
+              <a
+                href="https://line.me/ti/p/AbtvfPG8Wt"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block px-8 py-3 text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full font-medium shadow-lg shadow-green-500/20 hover:brightness-105 transition"
+              >
+                💬 LINEで相談する
+              </a>
+              <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
+            </div>
+        </div>
+      </section>
+
+      {/* ========== 相談で整理する3つのこと ========== */}
+      <section id="steps" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">3 Steps</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447] mb-3">
+                相談で整理する3つのこと
+              </h2>
+              <p className="text-[#062447]/70 text-sm leading-[1.85]">
+                判断ではなく、「順番」を整えます。
+              </p>
+            </div>
+
+            {/* 3ステップ：1項目ずつ独立カード */}
+            <div className={cardStack}>
+              {[
+                { step: '01', title: '目的の整理', desc: '何を大切にしたいのか。何を優先したいのか。\nまずはあなたにとっての「ゴール」を、明確にします。' },
+                { step: '02', title: '制約の整理', desc: 'お金・期限・関係者など、\n変更できない条件を整理し、現実的な前提を明確にさせます。' },
+                { step: '03', title: '選択肢の整理', desc: '売る・貸す・保有・住み替えなど、\n考えられる選択肢を並べて、冷静に比較します。' },
+              ].map((item, i) => (
+                <div key={i} className={cardItem}>
+                  <div className="flex gap-4 items-start">
+                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent flex-shrink-0">
+                      {item.step}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[#062447] mb-2">{item.title}</h3>
+                      <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] whitespace-pre-line">{item.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 補足カード */}
+            <div className={`${cardItem} text-center`}>
+              <p className="text-cyan-600 text-sm">
+                💡 するべきことだけでなく「今は決めなくていいこと」も、あらかじめ整理します
+              </p>
+            </div>
+        </div>
+      </section>
+
+      {/* ========== 相談後に得られること ========== */}
+      <section id="results" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">Results</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447] mb-3">
+                相談後に得られること
+              </h2>
+              <p className="text-[#062447]/70 text-sm leading-[1.85]">
+                決断を迫りません。<br />
+                安心のための整理がゴールです。
+              </p>
+            </div>
+
+            {/* 得られること：1項目ずつ独立カード */}
+            <div className={cardStack}>
+              {[
+                { icon: '📋', text: '今やるべきことが見える' },
+                { icon: '⏸️', text: '急がなくていいものがわかる' },
+                { icon: '⚠️', text: '注意すべきポイントが把握できる' },
+              ].map((item, i) => (
+                <div key={i} className={cardItem}>
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                    <span className="text-[#062447]/90 font-medium leading-[1.85] text-[15px] sm:text-base">{item.text}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="text-center">
+              <a
+                href="https://line.me/ti/p/AbtvfPG8Wt"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block px-10 py-4 text-lg text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full font-bold shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
+              >
+                💬 LINEで相談する
+              </a>
+              <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
+            </div>
+        </div>
+      </section>
+
+      {/* ========== 相談員について ========== */}
+      <section id="about" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">About</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+                相談員について
+              </h2>
+            </div>
+
+            {/* プロフィールカード（下余白を追加してチップ群との距離を確保） */}
+            <div className={`${largeCard} pb-10 sm:pb-12`}>
+              <div className="flex flex-col items-center text-center mb-6">
+                <img
+                  src={takaImage}
+                  alt="Takaさん（相談員）"
+                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg shadow-blue-500/20 mb-4"
+                />
+                <p className="font-bold text-[#062447] text-lg">Takaさん</p>
+                <p className="text-[#062447]/50 text-sm">困った不動産お悩み相談室 相談員</p>
+              </div>
+              
+              {/* カード内の区切り線 */}
+              <div className="mx-auto my-5 sm:my-7 h-px w-full max-w-full rounded-full bg-[#062447]/[0.18]" />
+              
+              {/* ✅ 文章エリア（左右2文字分の余白＋行間・段落間を広く） */}
+              <div className="px-[1.8em] py-[1.4em] sm:px-[2em] sm:py-[1.5em]">
+                <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-[0.9em]">
+                  不動産業界で約10年。<br />
+                  売買仲介から複雑な権利調整まで、数多くの案件と向き合ってきました。
+                </p>
+                <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-[0.9em]">
+                  業界にいると「売るため」「契約するため」の力が働きがち。<br />
+                  でも本当に必要なのは、まず状況を整理すること。
+                </p>
+                <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-0">
+                  専門家に丸投げする前に、全体像を整理し、無理のない選択肢を一緒に考える。<br />
+                  そんな「壁打ち相手」でありたいと思っています。
+                </p>
+              </div>
+            </div>
+
+            {/* ✅ SNSリンク（PC: 4列 / SP: 2列×2行） */}
+            {(() => {
+              const socials = [
+                { label: '𝕏', name: 'X', href: 'https://x.com/t_fudosan_' },
+                { label: '▶️', name: 'YouTube', href: 'https://www.youtube.com/channel/UCXj6VDr0Wur_DloCDewHMUw' },
+                { label: '@', name: 'Threads', href: 'https://www.threads.com/@t.fudosan?hl=ja' },
+                { label: '📷', name: 'Instagram', href: 'https://www.instagram.com/t.fudosan/' },
+              ]
+              return (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                  {socials.map((sns, i) => (
+                    <a
+                      key={i}
+                      href={sns.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full h-12 inline-flex items-center justify-center gap-2 rounded-full bg-white/[0.55] border border-white/[0.30] shadow-sm text-[#062447]/85 text-sm font-semibold hover:bg-white/[0.70] hover:shadow-md transition"
+                    >
+                      <span>{sns.label}</span>
+                      <span>{sns.name}</span>
+                    </a>
+                  ))}
+                </div>
+              )
+            })()}
+        </div>
+      </section>
+
+      {/* ========== FAQ ========== */}
+      <section id="faq" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">FAQ</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+                よくあるご質問
+              </h2>
+            </div>
+
+            {/* FAQ：1問ずつ独立カード */}
+            <div className={cardStack}>
+              {[
+                { q: '無料の範囲は？', a: '相談は完全無料です。\nその後の不動産のお手続きが必要な場合のみ、正規報酬を頂戴いたします。' },
+                { q: '売却前提ですか？', a: 'いいえ、売却前提ではありません。\n「売らない」という結論もあり得ます。' },
+                { q: '相談後に営業されませんか？', a: 'しつこい営業は一切しません。\n判断はご本人にお任せします。' },
+                { q: '匿名でも相談できますか？', a: '初回は匿名でも構いません。\n具体的なアドバイスには情報が必要になる場合があります。' },
+                { q: '税金や法律の判断も？', a: '一般的な回答の範囲内であれば可能です。\n専門的な判断は適切な専門家をご紹介します。' },
+              ].map((item, i) => (
+                <div key={i} className="bg-white/[0.55] border border-white/[0.35] rounded-[18px] shadow-[0_12px_28px_rgba(2,20,60,0.10)] backdrop-blur-xl px-5 py-5 sm:px-6 sm:py-6">
+                  {/* Q（ぶら下げインデント：余白調整済み） */}
+                  <p className="relative pl-[4.5em] font-bold text-[#062447] mb-4">
+                    <span className="absolute left-[2em] top-0 text-cyan-500 font-bold">Q.</span>
+                    {item.q}
+                  </p>
+                  {/* A（ぶら下げインデント：余白調整済み） */}
+                  <p className="relative pl-[4.5em] text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] whitespace-pre-line">
+                    <span className="absolute left-[2em] top-0 text-cyan-500 font-bold">A.</span>
+                    {item.a}
                   </p>
                 </div>
-              </div>
+              ))}
             </div>
-
-            {/* ② */}
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-900">
-                  2
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    あなたに寄り添う伴走型
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                    専門家や業者に丸投げしません。
-                    あなたが納得して意思決定できるよう、最後まで隣で支えます。
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ③ */}
-            <div className="rounded-xl bg-white p-6 shadow-sm">
-              <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100 font-semibold text-gray-900">
-                  3
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    中立・公平なアドバイス
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                    特定の不動産会社には属していません。
-                    営業トークなしで、あなたにとっての最善を考えます。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="bg-white">
-        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
-          <div className="order-2 md:order-1">
-            <h2 className="text-3xl font-bold mb-6">
-              運営者について
-            </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              はじめまして、Takaと申します。不動産業界で約10年、売買仲介から複雑な権利調整まで、数多くの「こじれやすい案件」と向き合ってきました。
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              業界にいると、どうしても「売るため」「契約するため」の力が働きがちです。しかし、お客様が本当に求めているのは、必ずしもそれだけではない、と常に感じていました。
-            </p>
-            <p className="text-gray-700 leading-relaxed">
-              専門家に丸投げする前に、まずは全体像を整理し、無理のない選択肢を一緒に考える。そんな「壁打ち相手」のような存在が必要ではないかと思い、この相談室を立ち上げました。
-            </p>
-          </div>
-          <div className="w-full h-96 bg-gray-200 rounded-xl overflow-hidden order-1 md:order-2">
-            <img 
-              src="https://placehold.co/600x800/e2e8f0/4a5568?text=Profile+Image" 
-              alt="プロフィール画像" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
+      {/* ========== 最終CTA + フォーム ========== */}
+      <section id="form" className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+            
+            {/* 見出し */}
+            <div className="text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+                決断の前に、<br />状況を整理する時間を。
+              </h2>
+              <p className="text-white/70 text-sm leading-[1.85]">
+                迷いが増える前に、<br />
+                論点だけ先に整えておくのも一つの手です。
+              </p>
+            </div>
 
-      {/* Process */}
-      <section id="process" className="bg-gray-50">
-        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">ご相談の流れ</h2>
-            <p className="text-gray-600 mt-4">たった4つのステップで、あなたの悩みを整理します。</p>
-          </div>
-          <div className="relative">
-            <div className="absolute left-1/2 h-full w-0.5 bg-gray-200 hidden md:block"></div>
-            <div className="relative mb-12">
-              <div className="md:flex items-center">
-                <div className="md:w-1/2 md:pr-8">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h3 className="text-2xl font-bold mb-3">Step 1: お申し込み</h3>
-                    <p className="text-gray-700">まずは無料相談フォームから、あなたの状況を簡単にお知らせください。2営業日以内にこちらからご連絡いたします。</p>
+            {/* ✅ LINE相談カード */}
+            <div className="mx-auto w-full max-w-[720px] sm:max-w-[60%] bg-white/[0.62] border border-white/[0.38] rounded-2xl shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-6 sm:p-8">
+              <div className="text-center">
+                <p className="text-cyan-600 text-xs font-semibold tracking-wide uppercase mb-2">
+                  {showMailForm ? 'Line / Mail' : 'Line'}
+                </p>
+                <h3 className="text-lg sm:text-xl font-bold text-[#062447]">
+                  {showMailForm ? 'LINE相談とメール相談、どちらでもOK' : 'LINEで気軽にご相談ください'}
+                </h3>
+                <p className="mt-2 text-[#062447]/70 text-sm leading-[1.85]">
+                  {showMailForm ? (
+                    <>まずは気軽にLINEで。<br className="sm:hidden" />文章を残したい方はメールでも受け付けています。</>
+                  ) : (
+                    <>お悩みをお聞かせください。<br />一緒に状況を整理しましょう。</>
+                  )}
+                </p>
+              </div>
+
+              <div className={`mt-6 ${showMailForm ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : ''}`}>
+                <a
+                  href="https://line.me/ti/p/AbtvfPG8Wt"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full py-4 font-bold text-white bg-gradient-to-r from-emerald-500 to-green-400 shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
+                >
+                  <span className="text-lg">💬</span>
+                  LINEで相談する
+                </a>
+
+                {/* メール相談ボタン（showMailForm === true のときのみ表示） */}
+                {showMailForm && (
+                  <a
+                    href="#mail"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-full py-4 font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-400 shadow-[0_18px_50px_rgba(34,211,238,0.25)] hover:brightness-105 transition"
+                  >
+                    <span className="text-lg">✉️</span>
+                    メールで相談する
+                  </a>
+                )}
+              </div>
+
+              <p className="mt-4 text-center text-[#062447]/50 text-xs">
+                営業なし ｜ 即日対応 ｜ お話を聞くだけOK
+              </p>
+            </div>
+
+            {/* メールフォーム（showMailForm === true のときのみ表示） */}
+            {showMailForm && (
+              <>
+                {isSubmitted ? (
+                  <div className="bg-white/[0.62] border border-white/[0.38] rounded-2xl shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-6 sm:p-8 text-center">
+                    <div className="text-4xl mb-4">✉️</div>
+                    <h3 className="font-bold text-[#062447] text-xl mb-3">送信完了しました</h3>
+                    <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85]">
+                      2営業日以内にご連絡いたします。
+                    </p>
                   </div>
-                </div>
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
-                <div className="md:w-1/2"></div>
-              </div>
-            </div>
-            <div className="relative mb-12">
-              <div className="md:flex items-center">
-                <div className="md:w-1/2"></div>
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
-                <div className="md:w-1/2 md:pl-8">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h3 className="text-2xl font-bold mb-3">Step 2: 初回ヒアリング (無料)</h3>
-                    <p className="text-gray-700">オンラインまたは対面で、約60分間のヒアリングを行います。守秘義務を遵守しますので、安心して何でもお話しください。</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="relative mb-12">
-              <div className="md:flex items-center">
-                <div className="md:w-1/2 md:pr-8">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h3 className="text-2xl font-bold mb-3">Step 3: 状況整理と方針のご提案</h3>
-                    <p className="text-gray-700">ヒアリング内容を元に、問題の全体像や考えられる選択肢をまとめたレポートを作成します。今後の進め方について、いくつかの方針をご提案します。</p>
-                  </div>
-                </div>
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
-                <div className="md:w-1/2"></div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="md:flex items-center">
-                <div className="md:w-1/2"></div>
-                <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
-                <div className="md:w-1/2 md:pl-8">
-                  <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h3 className="text-2xl font-bold mb-3">Step 4: 実行サポート (オプション)</h3>
-                    <p className="text-gray-700">必要に応じて、専門家（弁護士、税理士など）の紹介や、不動産業者とのやり取りのサポートも行います。もちろん、ご自身で進めることも可能です。</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* FAQ */}
-      <section id="faq" className="bg-white">
-        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">よくあるご質問</h2>
-          </div>
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Q. 相談は本当に無料ですか？</h3>
-              <p className="text-gray-700">A. はい、初回60分のヒアリングと、それに伴う簡単なアドバイスまでは完全に無料です。その後の詳細な調査や実行サポートをご希望の場合は、別途お見積もりを提示し、ご納得いただいた上で費用が発生します。</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Q. 地方の不動産でも相談可能ですか？</h3>
-              <p className="text-gray-700">A. はい、全国どこでも対応可能です。オンラインでのご相談が中心となりますが、必要に応じて現地への出張も検討します（別途交通費を申し受けます）。</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Q. 相談したら、必ずどこかの業者を紹介されますか？</h3>
-              <p className="text-gray-700">A. いいえ、そんなことはありません。私たちの目的は、あくまであなたの悩みを整理し、最善の選択肢を見つけるお手伝いをすることです。業者への依頼が必要ないと判断すれば、そのようにお伝えします。</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Q. 匿名での相談は可能ですか？</h3>
-              <p className="text-gray-700">A. 初回のお問い合わせは匿名でも構いません。しかし、具体的なアドバイスを行うためには、ある程度の個人情報や物件情報が必要になる点はご了承ください。もちろん、個人情報は厳重に管理いたします。</p>
-            </div>
-          </div>
+                ) : (
+                  <form id="mail" onSubmit={handleSubmit} className="bg-white/[0.62] border border-white/[0.38] rounded-2xl shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-6 sm:p-8">
+                    <div className="space-y-5">
+                      <div>
+                        <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">お名前</label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="山田 太郎（ニックネームOK）"
+                          className="w-full px-4 py-3 h-12 bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">連絡先</label>
+                        <input
+                          type="text"
+                          name="contact"
+                          value={formData.contact}
+                          onChange={handleChange}
+                          placeholder="example@email.com"
+                          className="w-full px-4 py-3 h-12 bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">相談カテゴリ</label>
+                        <select
+                          name="category"
+                          value={formData.category}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 h-12 bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition"
+                          required
+                        >
+                          <option value="">選択してください</option>
+                          <option value="売却">売却について</option>
+                          <option value="購入">購入について</option>
+                          <option value="相続">相続について</option>
+                          <option value="住み替え">住み替えについて</option>
+                          <option value="賃貸">賃貸について</option>
+                          <option value="その他">その他・まだ分からない</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">ご相談内容（任意）</label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="現在の状況や気になっていることを&#10;自由にお書きください"
+                          rows="4"
+                          className="w-full px-4 py-4 min-h-[140px] bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition resize-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-8">
+                      <button
+                        type="submit"
+                        className="w-full py-4 text-white font-bold bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_18px_50px_rgba(34,211,238,0.25)] hover:brightness-105 transition"
+                      >
+                        無料で相談する
+                      </button>
+                      <p className="mt-4 text-[#062447]/50 text-xs text-center">
+                        営業なし ｜ 即日対応 ｜ お話を聞くだけOK
+                      </p>
+                    </div>
+                  </form>
+                )}
+              </>
+            )}
         </div>
       </section>
 
-      {/* CTA */}
-      <section id="contact" className="bg-blue-700 text-white">
-        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            さあ、最初の一歩を
-            <br />
-            踏み出してみませんか？
-          </h2>
-          <p className="text-blue-100 mb-10 max-w-2xl mx-auto">
-            一人で悩む時間はもう終わりです。
-            あなたの状況を、私たちに聞かせてください。
-            最適な解決策を一緒に見つけましょう。
-          </p>
-          <a
-            href="#"
-            className="inline-block bg-white text-blue-700 px-12 py-5 rounded-lg text-xl font-bold hover:bg-gray-100 transition shadow-lg"
-          >
-            今すぐ無料で相談する
-          </a>
-        </div>
-      </section>
+      </main>
+      {/* ========== /メインコンテンツ ========== */}
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-gray-400">
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-          <p>&copy; 2025 不動産お悩み相談室. All Rights Reserved.</p>
+      {/* ========== Footer ========== */}
+      <footer className="border-t border-white/20">
+        <div className={pageContainer}>
+          <div className="py-10 text-center text-sm text-white/70">
+            <p className="mb-2">不動産相談室</p>
+            <p>&copy; 2025 All Rights Reserved.</p>
+          </div>
         </div>
       </footer>
+
+      {/* ========== Sticky CTA（スマホ用） ========== */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-blue-900/10 p-4 sm:hidden z-50">
+        <a
+          href="https://line.me/ti/p/AbtvfPG8Wt"
+          target="_blank"
+          rel="noreferrer"
+          className="block w-full py-4 text-center text-white font-bold bg-gradient-to-r from-emerald-500 to-green-400 rounded-full shadow-lg shadow-green-500/20"
+        >
+          💬 LINEで相談する
+        </a>
+        <p className="mt-2 text-[#062447]/50 text-xs text-center">
+          営業なし ｜ 即日対応 ｜ お話を聞くだけOK
+        </p>
+      </div>
+
+      {/* スマホ用余白 */}
+      <div className="h-28 sm:hidden" />
     </div>
   )
 }

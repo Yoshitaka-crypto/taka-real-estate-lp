@@ -1,72 +1,163 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+/* ========== CSS変数（青〜水色パレット） ========== */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* 背景グラデ */
+  --bg-top: #E8F6FF;
+  --bg-mid: #A7D8FF;
+  --bg-deep: #1E5AA8;
+  
+  /* テキスト */
+  --text-main: #062447;
+  --text-muted: rgba(6, 36, 71, 0.70);
+  
+  /* ✅ カード（ガラス風） */
+  --card-bg: rgba(255, 255, 255, 0.62);
+  --card-border: rgba(255, 255, 255, 0.38);
+  --card-shadow: 0 12px 28px rgba(2, 20, 60, 0.12);
+  --card-radius: 18px;
+  
+  /* プライマリ */
+  --primary-1: #2563EB;
+  --primary-2: #22D3EE;
+  --primary-hover: #1D4ED8;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ========== リセット（Tailwindのspace-y等を妨げない形） ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-a:hover {
-  color: #535bf2;
+
+/* ========== 基本設定 ========== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    var(--bg-top) 0%,
+    var(--bg-mid) 50%,
+    var(--bg-deep) 100%
+  );
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+#root {
+  width: 100%;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ========== タイポグラフィ ========== */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+p {
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* ========== カード共通（CSS版） ========== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.cardItem {
+  padding: 18px 18px;
+}
+
+.cardStack {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .cardItem {
+    padding: 20px 22px;
+  }
+  .cardStack {
+    gap: 16px;
+  }
+}
+
+/* ========== フォーム要素 ========== */
+input, select, textarea {
   font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+::placeholder {
+  color: rgba(6, 36, 71, 0.4);
+  opacity: 1;
+}
+
+/* ========== セレクトボックスの矢印 ========== */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23062447'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* ========== 選択時の色 ========== */
+::selection {
+  background-color: rgba(34, 211, 238, 0.3);
+  color: var(--text-main);
+}
+
+/* ========== スクロールバー ========== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-top);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 90, 168, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 90, 168, 0.5);
+}
+
+/* ========== アニメーション ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  a:hover {
-    color: #747bff;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
 }
