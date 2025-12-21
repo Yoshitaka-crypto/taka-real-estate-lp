@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import takaImage from './assets/taka.png'
 import heroImage from './assets/hero.png'
+import xIcon from './assets/social/x.svg'
+import youtubeIcon from './assets/social/youtube.svg'
+import threadsIcon from './assets/social/threads.svg'
+import instagramIcon from './assets/social/instagram.svg'
+import noteIcon from './assets/social/note.svg'
 
 function App() {
   const [formData, setFormData] = useState({
@@ -85,9 +90,9 @@ function App() {
               href="https://line.me/ti/p/AbtvfPG8Wt"
               target="_blank"
               rel="noreferrer"
-              className="text-sm bg-gradient-to-r from-emerald-500 to-green-400 text-white px-5 py-2.5 rounded-full font-medium shadow-lg shadow-green-500/20 hover:brightness-105 transition"
+              className="text-sm bg-[#0A2540] hover:bg-[#143D66] text-white px-5 py-2.5 rounded-full font-medium shadow-lg shadow-[#0A2540]/20 transition"
             >
-              💬 LINEで相談する
+              今の状況を整理する（無料）
             </a>
           </div>
         </div>
@@ -95,101 +100,257 @@ function App() {
       
       {/* ========== Hero / First View ========== */}
       <section>
+        {/* ✅ Hero画像（ヘッダー直下、余白なし） */}
+        <div className="w-full flex justify-center items-center bg-[#E8F6FF]">
+          <img
+            src={heroImage}
+            alt="不動産相談イメージ"
+            className="h-[360px] w-full max-w-[1920px] object-contain object-center select-none pointer-events-none"
+          />
+        </div>
+
         <div className={pageContainer}>
-          <div className="py-16 sm:py-24 text-center">
+          <div className="py-10 sm:py-16 text-center">
             
-            {/* サブラベル */}
-            <p className="text-cyan-600 text-sm font-medium mb-4 tracking-wide">
-              無料相談｜中立・安心
-            </p>
-            
-            {/* ✅ Hero画像（固定高さ + 中央寄せ + 余白は背景色） */}
-            <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen mb-8 flex justify-center items-center bg-[#E8F6FF]">
-              <img
-                src={heroImage}
-                alt="不動産相談イメージ"
-                className="h-[360px] w-full max-w-[1920px] object-contain object-center select-none pointer-events-none"
-              />
-            </div>
-            
-            {/* ✅ H1（色を濃紺で統一） */}
+            {/* ✅ H1（FVメインコピー） */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#062447] leading-tight mb-4">
-              不動産の悩み、<br />
-              まず"整理"から。
-          </h1>
+              不動産で<br />
+              <span className="text-[1.2em]">「迷っている人」</span><br />
+              のための相談室
+            </h1>
             
-            {/* リード */}
+            {/* FVサブコピー */}
             <p className="text-[#062447]/70 text-base sm:text-lg leading-[1.85] mb-10 max-w-md mx-auto">
-              今すぐ決めなくて大丈夫。<br />
-              論点と順番を整える、無料相談です。
+              判断を急がせず、<br />
+              今なにを考えるべきかを整理します。
             </p>
 
-            {/* メインCTA */}
-            <div className="max-w-sm mx-auto mb-4">
-              <a
-                href="https://line.me/ti/p/AbtvfPG8Wt"
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full py-4 sm:py-5 text-lg font-bold text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
-              >
-                💬 LINEで相談する
-              </a>
+            {/* ✅ FV直下コンテンツ（見出し＋箇条書き） */}
+            <div className="max-w-md mx-auto mb-10 text-left">
+              <h2 className="text-lg sm:text-xl font-bold text-[#062447] mb-4 text-center">
+                こんな状態で、止まっていませんか？
+              </h2>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-500 font-bold flex-shrink-0">•</span>
+                  <span className="text-[#062447]/80 leading-[1.85]">何が問題なのか、正直よく分からない</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-500 font-bold flex-shrink-0">•</span>
+                  <span className="text-[#062447]/80 leading-[1.85]">売る・買う・動くべきか判断がつかない</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cyan-500 font-bold flex-shrink-0">•</span>
+                  <span className="text-[#062447]/80 leading-[1.85]">この悩みで不動産会社に行っていいのか分からない</span>
+                </li>
+              </ul>
             </div>
-            <p className="text-[#062447]/50 text-xs">
-              営業なし ｜ 即日対応 ｜ お話を聞くだけOK
-            </p>
+
           </div>
         </div>
       </section>
 
       {/* ========== メインコンテンツ（space-y でセクション間の外側余白を確保） ========== */}
-      <main className="flex flex-col space-y-16 sm:space-y-24 outline outline-4 outline-red-500">
+      <main className="flex flex-col space-y-16 sm:space-y-24">
 
-      {/* ========== こんなお悩みありませんか？ ========== */}
-      <section id="problems" className={sectionPadding}>
-        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
-            
-            {/* 見出し */}
-            <div className="text-center">
-              <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">Problems</p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
-                こんなお悩みありませんか？
-              </h2>
-            </div>
 
-            {/* 悩みカード：1項目ずつ独立 */}
-            <div className={cardStack}>
-              {[
-                '売るか住み続けるか、決めきれない',
-                '相続・共有名義で話が進まない',
-                '住宅ローン・住み替えの順番が分からない',
-                '業者に相談すると売り込まれそうで怖い',
-              ].map((item, i) => (
-                <div key={i} className={cardItem}>
-                  <div className="flex items-center gap-3">
-                    <span className="text-cyan-500 text-lg font-bold flex-shrink-0">✓</span>
-                    <span className="text-[#062447]/90 leading-[1.85] text-[15px] sm:text-base">{item}</span>
-                  </div>
-            </div>
-              ))}
-            </div>
+      {/* ========== ① 共感の深掘りブロック ========== */}
+      <section className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#062447] mb-6 leading-relaxed">
+            それ、あなたの判断力がないわけではありません
+          </h2>
+          <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.9]">
+            不動産の悩みは、<br />
+            情報が多すぎて「整理できない」だけのことがほとんどです。<br />
+            多くの方が、判断できずに立ち止まっています。
+          </p>
 
-            {/* CTA */}
-            <div className="text-center">
-              <a
-                href="https://line.me/ti/p/AbtvfPG8Wt"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block px-8 py-3 text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full font-medium shadow-lg shadow-green-500/20 hover:brightness-105 transition"
-              >
-                💬 LINEで相談する
-              </a>
-              <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
+          {/* ✅ メインCTA（濃紺ボタン） */}
+          <div className="max-w-sm mx-auto mt-10 mb-3">
+            <a
+              href="https://line.me/ti/p/AbtvfPG8Wt"
+              target="_blank"
+              rel="noreferrer"
+              className="block w-full py-4 sm:py-5 text-lg font-bold text-white bg-[#0A2540] hover:bg-[#143D66] rounded-full shadow-[0_18px_50px_rgba(10,37,64,0.25)] transition"
+            >
+              今の状況を整理する（無料）
+            </a>
+          </div>
+          
+          {/* CTA直下の安心文言（2行・小さめ） */}
+          <div className="text-[#062447]/50 text-xs space-y-1">
+            <p>※ まだ結論が出ていない段階で大丈夫です</p>
+            <p>※ 状況整理だけのご相談も歓迎しています</p>
+          </div>
+
+          {/* 副CTA（電話・小さめ） */}
+          <div className="mt-6">
+            <a
+              href="tel:0120-316-710"
+              className="inline-flex items-center gap-2 px-5 py-2 text-xs font-medium text-[#062447]/60 bg-white/50 border border-[#062447]/10 rounded-full hover:bg-white/70 transition"
+            >
+              📞 お電話でも相談できます
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ========== 相談で整理する3つのこと ========== */}
+      {/* ========== ② 整理すると何が変わるのか ========== */}
+      <section className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-10 sm:space-y-12">
+          
+          {/* 見出し */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#062447] mb-3">
+              整理すると、こんな変化が起こります
+            </h2>
+            <p className="text-[#062447]/80 text-base sm:text-lg font-medium">
+              「何を悩んでいるのか」が、はっきりします
+            </p>
+          </div>
+
+          {/* 3ステップ図解 */}
+          <div className="space-y-4">
+            {/* STEP 1: 考えが散らかっている */}
+            <div className="rounded-[24px] border border-[#7DD3FC]/40 bg-gradient-to-br from-[#F0F9FF] to-[#E0F2FE] p-6 sm:p-8">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">🧠</div>
+                <div>
+                  <h3 className="font-bold text-[#0C4A6E] text-base sm:text-lg mb-3">考えが散らかっている</h3>
+                  <ul className="space-y-2 text-[#0C4A6E]/70 text-[14px] sm:text-[15px] leading-[1.8]">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#7DD3FC] flex-shrink-0">・</span>
+                      <span>情報が多すぎて、何が問題か分からない</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#7DD3FC] flex-shrink-0">・</span>
+                      <span>売る・買う・待つが頭の中で混ざっている</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#7DD3FC] flex-shrink-0">・</span>
+                      <span>考えているのに、前に進めない</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* 矢印 */}
+            <div className="flex justify-center py-2">
+              <span className="text-[#38BDF8] text-2xl">↓</span>
+            </div>
+
+            {/* STEP 2: 状況を整理する */}
+            <div className="rounded-[24px] border border-[#38BDF8]/40 bg-gradient-to-br from-[#E0F2FE] to-[#BAE6FD] p-6 sm:p-8">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">🗂️</div>
+                <div>
+                  <h3 className="font-bold text-[#075985] text-base sm:text-lg mb-3">状況を整理する</h3>
+                  <ul className="space-y-2 text-[#075985]/70 text-[14px] sm:text-[15px] leading-[1.8]">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#38BDF8] flex-shrink-0">・</span>
+                      <span>今の状況と選択肢を書き出す</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#38BDF8] flex-shrink-0">・</span>
+                      <span>「今考えること」と「後でいいこと」を分ける</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#38BDF8] flex-shrink-0">・</span>
+                      <span>判断を急がず、優先順位だけ決める</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* 矢印 */}
+            <div className="flex justify-center py-2">
+              <span className="text-[#0EA5E9] text-2xl">↓</span>
+            </div>
+
+            {/* STEP 3: 進む方向が見える */}
+            <div className="rounded-[24px] border border-[#0EA5E9]/40 bg-gradient-to-br from-[#BAE6FD] to-[#7DD3FC] p-6 sm:p-8">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">🧭</div>
+                <div>
+                  <h3 className="font-bold text-[#0369A1] text-base sm:text-lg mb-3">進む方向が見える</h3>
+                  <ul className="space-y-2 text-[#0369A1]/80 text-[14px] sm:text-[15px] leading-[1.8]">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0EA5E9] flex-shrink-0">・</span>
+                      <span>まず何をすべきかが明確になる</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0EA5E9] flex-shrink-0">・</span>
+                      <span>比較・検討ができる状態になる</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0EA5E9] flex-shrink-0">・</span>
+                      <span>「動く／動かない」を自分で選べる</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 締めコピー */}
+          <div className="text-center space-y-4">
+            <p className="text-[#062447]/70 text-sm sm:text-base leading-[1.85]">
+              判断できるようになる理由は、「知識」ではなく「整理」です。
+            </p>
+            <p className="text-[#062447]/80 text-base sm:text-lg font-medium leading-[1.85]">
+              迷いが消えたあと、<br />
+              「動く」「動かない」を決めれば大丈夫です。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== ③ こんな方に向いています ========== */}
+      <section className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+          
+          {/* 見出し */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+              困った不動産のお悩み相談室は<br />
+              「まだ決めきれない方」のための場所です
+            </h2>
+          </div>
+
+          {/* 箇条書き */}
+          <div className={cardStack}>
+            {[
+              '不動産のことで悩んでいるものの、\n何が問題なのか・何から考えるべきか整理できていない方',
+              '売る・買う・待つなど、\n選択肢が多すぎて判断できずに止まっている方',
+              '不動産会社に行くほどではないが、\n一度、頭の中を整理してから考えたい方',
+              '結論を急がされるのが不安で、\nまずは落ち着いて状況を整理したい方',
+            ].map((item, i) => (
+              <div key={i} className={cardItem}>
+                <div className="flex items-start gap-3">
+                  <span className="text-cyan-500 text-lg font-bold flex-shrink-0">✓</span>
+                  <span className="text-[#062447]/90 leading-[1.85] text-[15px] sm:text-base whitespace-pre-line">{item}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* 補足（小さめ） */}
+          <p className="text-center text-[#062447]/50 text-xs leading-relaxed">
+            ※ すでに方向性が決まっている方の<br />
+            「考え方が合っているか確認する場」としてのご相談も可能です
+          </p>
+
+          {/* 締め */}
+          <p className="text-center text-[#062447]/80 text-base sm:text-lg font-medium leading-[1.85]">
+            迷っている状態のまま、来ていただいて大丈夫な場所です。
+          </p>
+        </div>
+      </section>
+
+      {/* ========== ④ 相談すると何をするのか（3ステップ） ========== */}
       <section id="steps" className={sectionPadding}>
         <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
             
@@ -197,40 +358,69 @@ function App() {
             <div className="text-center">
               <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">3 Steps</p>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#062447] mb-3">
-                相談で整理する3つのこと
+                相談すると、まずこんな流れで進みます
               </h2>
               <p className="text-[#062447]/70 text-sm leading-[1.85]">
-                判断ではなく、「順番」を整えます。
+                いきなり結論や方向性を決めることはありません
               </p>
             </div>
 
             {/* 3ステップ：1項目ずつ独立カード */}
             <div className={cardStack}>
               {[
-                { step: '01', title: '目的の整理', desc: '何を大切にしたいのか。何を優先したいのか。\nまずはあなたにとっての「ゴール」を、明確にします。' },
-                { step: '02', title: '制約の整理', desc: 'お金・期限・関係者など、\n変更できない条件を整理し、現実的な前提を明確にさせます。' },
-                { step: '03', title: '選択肢の整理', desc: '売る・貸す・保有・住み替えなど、\n考えられる選択肢を並べて、冷静に比較します。' },
+                { 
+                  step: '01', 
+                  title: '今の状況を整理します', 
+                  desc: '何に困っているのか、何が分からないのかを一緒に言葉にします。\n売る・買うを決める必要はありません。\n話がまとまっていなくても問題ありません。' 
+                },
+                { 
+                  step: '02', 
+                  title: '考えられる選択肢を整理します', 
+                  desc: '「売る」「貸す」「保有する」「住み替える」など、\n今考えられる選択肢を整理して並べます。\nどれを選ぶかは、この場で決めなくて大丈夫です。' 
+                },
+                { 
+                  step: '03', 
+                  title: 'やるべきことの優先順位を整理します', 
+                  desc: 'すべてを決める必要はありません。\n「今やるべきこと」と「後で考えていいこと」を切り分けます。' 
+                },
               ].map((item, i) => (
                 <div key={i} className={cardItem}>
                   <div className="flex gap-4 items-start">
                     <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent flex-shrink-0">
                       {item.step}
-            </div>
-            <div>
+                    </div>
+                    <div>
                       <h3 className="font-bold text-[#062447] mb-2">{item.title}</h3>
                       <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] whitespace-pre-line">{item.desc}</p>
                     </div>
                   </div>
-              </div>
+                </div>
               ))}
             </div>
 
-            {/* 補足カード */}
-            <div className={`${cardItem} text-center`}>
-              <p className="text-cyan-600 text-sm">
-                💡 するべきことだけでなく「今は決めなくていいこと」も、あらかじめ整理します
+            {/* 補足文 */}
+            <div className="text-center">
+              <p className="text-[#062447]/70 text-sm sm:text-base leading-[1.85]">
+                ここまで進んでも、売却や購入を決める必要はありません。<br />
+                整理だけで終わっても大丈夫です。
               </p>
-          </div>
+            </div>
+
+            {/* ⑤ 弱めのCTA（3ステップ後） */}
+            <div className="text-center mt-8 sm:mt-10">
+              <a
+                href="https://line.me/ti/p/AbtvfPG8Wt"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block px-10 py-4 text-base font-bold text-white bg-[#0A2540] hover:bg-[#143D66] rounded-full shadow-[0_14px_40px_rgba(10,37,64,0.20)] transition"
+              >
+                今の状況を整理する（無料）
+              </a>
+              <div className="mt-4 text-[#062447]/50 text-xs space-y-1">
+                <p>※ まだ結論が出ていない段階で大丈夫です</p>
+                <p>※ 状況整理だけのご相談も歓迎しています</p>
+              </div>
+            </div>
         </div>
       </section>
 
@@ -272,12 +462,12 @@ function App() {
                 href="https://line.me/ti/p/AbtvfPG8Wt"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-block px-10 py-4 text-lg text-white bg-gradient-to-r from-emerald-500 to-green-400 rounded-full font-bold shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
+                className="inline-block px-10 py-4 text-lg text-white bg-[#0A2540] hover:bg-[#143D66] rounded-full font-bold shadow-[0_18px_50px_rgba(10,37,64,0.25)] transition"
               >
-                💬 LINEで相談する
+                今の状況を整理する（無料）
               </a>
-              <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
-          </div>
+              <p className="mt-3 text-[#062447]/50 text-xs">※ 結論を出す必要はありません</p>
+            </div>
         </div>
       </section>
 
@@ -291,10 +481,10 @@ function App() {
               <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
                 相談員について
               </h2>
-          </div>
+            </div>
 
-            {/* プロフィールカード（下余白を追加してチップ群との距離を確保） */}
-            <div className={`${largeCard} pb-10 sm:pb-12`}>
+            {/* プロフィールカード */}
+            <div className={`${largeCard} pb-8 sm:pb-10`}>
               <div className="flex flex-col items-center text-center mb-6">
                 <img
                   src={takaImage}
@@ -302,56 +492,89 @@ function App() {
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg shadow-blue-500/20 mb-4"
                 />
                 <p className="font-bold text-[#062447] text-lg">Takaさん</p>
-                <p className="text-[#062447]/50 text-sm">困った不動産お悩み相談室 相談員</p>
+                <p className="text-[#062447]/50 text-sm">不動産お悩み整理担当</p>
               </div>
               
               {/* カード内の区切り線 */}
               <div className="mx-auto my-5 sm:my-7 h-px w-full max-w-full rounded-full bg-[#062447]/[0.18]" />
               
-              {/* ✅ 文章エリア（左右2文字分の余白＋行間・段落間を広く） */}
+              {/* 本文エリア */}
               <div className="px-[1.8em] py-[1.4em] sm:px-[2em] sm:py-[1.5em]">
                 <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-[0.9em]">
                   不動産業界で約10年。<br />
-                  売買仲介から複雑な権利調整まで、数多くの案件と向き合ってきました。
+                  売買仲介から複雑な権利調整まで、さまざまな案件に関わってきました。
                 </p>
                 <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-[0.9em]">
-                  業界にいると「売るため」「契約するため」の力が働きがち。<br />
-                  でも本当に必要なのは、まず状況を整理すること。
+                  この相談室では、<br />
+                  いきなり結論を出すことはしません。<br />
+                  まずは状況を整理し、「今、何を考えるべきか」を一緒に確認します。
+                </p>
+                <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-[0.9em]">
+                  迷っている状態のまま相談していただいて大丈夫です。<br />
+                  考えがまとまっていなくても問題ありません。
                 </p>
                 <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] mb-0">
-                  専門家に丸投げする前に、全体像を整理し、無理のない選択肢を一緒に考える。<br />
-                  そんな「壁打ち相手」でありたいと思っています。
+                  決断を迫らず、整理だけを手伝う。<br />
+                  そんな「壁打ち相手」として、お話を聞かせてください。
                 </p>
               </div>
             </div>
 
-            {/* ✅ SNSリンク（PC: 4列 / SP: 2列×2行） */}
+            {/* 相談にあたって大切にしていること */}
+            <div className="space-y-3">
+              <p className="text-center text-[#062447]/60 text-sm font-medium mb-4">
+                相談にあたって大切にしていること
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  '売買を前提にしません',
+                  '結論を急ぎません',
+                  'やる事だけ整理します',
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="bg-white/50 border border-white/40 rounded-xl px-4 py-3 text-center text-[#062447]/80 text-sm font-medium shadow-sm"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SNSリンク（ロゴアイコン） */}
             {(() => {
               const socials = [
-                { label: '𝕏', name: 'X', href: 'https://x.com/t_fudosan_' },
-                { label: '▶️', name: 'YouTube', href: 'https://www.youtube.com/channel/UCXj6VDr0Wur_DloCDewHMUw' },
-                { label: '@', name: 'Threads', href: 'https://www.threads.com/@t.fudosan?hl=ja' },
-                { label: '📷', name: 'Instagram', href: 'https://www.instagram.com/t.fudosan/' },
-                { label: '📝', name: 'note', href: 'https://note.com/merry_hornet4114' }, // note追加
+                { name: 'X', href: 'https://x.com/t_fudosan_', icon: xIcon },
+                { name: 'YouTube', href: 'https://www.youtube.com/channel/UCXj6VDr0Wur_DloCDewHMUw', icon: youtubeIcon },
+                { name: 'Threads', href: 'https://www.threads.com/@t.fudosan?hl=ja', icon: threadsIcon },
+                { name: 'Instagram', href: 'https://www.instagram.com/t.fudosan/', icon: instagramIcon },
+                { name: 'note', href: 'https://note.com/merry_hornet4114', icon: noteIcon },
               ]
               return (
-                <div className="grid grid-cols-2 gap-5">
-                  {socials.map((sns, i) => (
+                <div className="flex justify-center gap-4">
+                  {socials.map((sns) => (
                     <a
-                      key={i}
+                      key={sns.name}
                       href={sns.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full h-14 inline-flex items-center justify-center gap-2 rounded-full bg-white/[0.55] border border-white/[0.30] shadow-sm text-[#062447]/85 text-base font-semibold hover:bg-white/[0.70] hover:shadow-md transition"
+                      aria-label={sns.name}
+                      title={sns.name}
+                      className="w-14 h-14 inline-flex items-center justify-center rounded-full bg-white/[0.55] border border-white/[0.30] shadow-sm hover:bg-white/[0.70] hover:shadow-md transition"
                     >
-                      <span className="text-lg">{sns.label}</span>
-                      <span>{sns.name}</span>
+                      <img
+                        src={sns.icon}
+                        alt=""
+                        className="w-8 h-8 object-contain opacity-80"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </a>
                   ))}
                 </div>
               )
             })()}
-              </div>
+        </div>
       </section>
 
       {/* ========== FAQ ========== */}
@@ -391,66 +614,148 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* ========== なぜ無料なのか ========== */}
+      <section className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+          
+          {/* 見出し */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+              なぜ、無料で相談を受けているのか
+            </h2>
+          </div>
+
+          {/* 本文 */}
+          <div className={cardItem}>
+            <div className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.9] space-y-5">
+              <p>
+                この相談室は、<br />
+                「今すぐ売る・買う」を決める場ではありません。
+              </p>
+              <p>
+                不動産の悩みは、<br />
+                判断を迫られる前に、<br />
+                一度「状況を整理する時間」が必要なことがほとんどです。
+              </p>
+              <p>
+                その整理の段階で、<br />
+                お金の心配をせず、<br />
+                安心して話せる場所をつくりたいと考え、<br />
+                この相談は無料にしています。
+              </p>
+              <p>
+                無理に動く必要はありません。<br />
+                まずは、考える順番を整えるための時間として使ってください。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== 私たちの立ち位置について ========== */}
+      <section className={sectionPadding}>
+        <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
+          
+          {/* 見出し */}
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
+              私たちの立ち位置について
+            </h2>
+          </div>
+
+          {/* 本文 */}
+          <div className={cardItem}>
+            <div className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.9] space-y-5">
+              <p>
+                この相談室では、<br />
+                相談したからといって、<br />
+                売却や購入を勧めることはありません。
+              </p>
+              <p>
+                状況を整理した結果、<br />
+                「今は動かない」という選択になることも、<br />
+                大切な判断だと考えています。
+              </p>
+              <p>
+                もしすでに他社で検討中の場合でも、<br />
+                セカンドオピニオンとしてのご相談は可能です。
+              </p>
+              <p>
+                結論を出すためではなく、<br />
+                「どう考えるべきか」を一緒に整理する。<br />
+                それが、私たちの関わり方です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       
       {/* ========== 最終CTA + フォーム ========== */}
       <section id="form" className={sectionPadding}>
         <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
             
-            {/* 見出し */}
+            {/* CTA直上テキスト */}
             <div className="text-center">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                決断の前に、<br />状況を整理する時間を。
-              </h2>
+              <p className="text-white/90 text-base sm:text-lg leading-[1.85] mb-6">
+                ここまで読んで、<br />
+                少しでも「自分のことかも」と感じたら、<br />
+                一度、状況を整理してみてください。
+              </p>
               <p className="text-white/70 text-sm leading-[1.85]">
-                迷いが増える前に、<br />
-                論点だけ先に整えておくのも一つの手です。
+                「動くかどうか」を決める前に、<br />
+                「考える順番」だけ整えてみませんか。
               </p>
             </div>
 
-            {/* ✅ LINE相談カード */}
+            {/* ✅ 状況整理カード */}
             <div className="mx-auto w-full max-w-[720px] sm:max-w-[60%] bg-white/[0.62] border border-white/[0.38] rounded-2xl shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-6 sm:p-8">
               <div className="text-center">
                 <p className="text-cyan-600 text-xs font-semibold tracking-wide uppercase mb-2">
-                  {showMailForm ? 'Line / Mail' : 'Line'}
+                  Contact
                 </p>
                 <h3 className="text-lg sm:text-xl font-bold text-[#062447]">
-                  {showMailForm ? 'LINE相談とメール相談、どちらでもOK' : 'LINEで気軽にご相談ください'}
+                  まずは状況を整理してみませんか？
                 </h3>
                 <p className="mt-2 text-[#062447]/70 text-sm leading-[1.85]">
-                  {showMailForm ? (
-                    <>まずは気軽にLINEで。<br className="sm:hidden" />文章を残したい方はメールでも受け付けています。</>
-                  ) : (
-                    <>お悩みをお聞かせください。<br />一緒に状況を整理しましょう。</>
-                  )}
+                  お悩みをお聞かせください。<br />
+                  一緒に状況を整理しましょう。
                 </p>
               </div>
 
-              <div className={`mt-6 ${showMailForm ? 'grid grid-cols-1 sm:grid-cols-2 gap-4' : ''}`}>
+              {/* メインCTAボタン */}
+              <div className="mt-6">
                 <a
                   href="https://line.me/ti/p/AbtvfPG8Wt"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full py-4 font-bold text-white bg-gradient-to-r from-emerald-500 to-green-400 shadow-[0_18px_50px_rgba(34,197,94,0.25)] hover:brightness-105 transition"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full py-4 font-bold text-white bg-[#0A2540] hover:bg-[#143D66] shadow-[0_18px_50px_rgba(10,37,64,0.25)] transition"
                 >
-                  <span className="text-lg">💬</span>
-                  LINEで相談する
+                  今の状況を整理する（無料）
                 </a>
+              </div>
 
-                {/* メール相談ボタン（showMailForm === true のときのみ表示） */}
-                {showMailForm && (
-                  <a
-                    href="#mail"
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-full py-4 font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-400 shadow-[0_18px_50px_rgba(34,211,238,0.25)] hover:brightness-105 transition"
-                  >
-                    <span className="text-lg">✉️</span>
-                    メールで相談する
-                  </a>
-                )}
-          </div>
+              {/* CTA直下補足 */}
+              <div className="mt-4 text-center text-[#062447]/50 text-xs space-y-1">
+                <p>※ 結論を出す必要はありません</p>
+                <p>※ 状況整理だけで終わっても大丈夫です</p>
+              </div>
+            </div>
 
-              <p className="mt-4 text-center text-[#062447]/50 text-xs">
-                営業なし ｜ 即日対応 ｜ お話を聞くだけOK
-              </p>
+            {/* 電話相談カード */}
+            <div className="mx-auto w-full max-w-[720px] sm:max-w-[60%] bg-white/[0.45] border border-white/[0.30] rounded-2xl shadow-[0_8px_20px_rgba(2,20,60,0.08)] backdrop-blur-xl p-5 sm:p-6">
+              <div className="text-center">
+                <p className="text-[#062447]/60 text-sm leading-[1.85] mb-3">
+                  話しながら整理したい方は、<br />
+                  お電話でのご相談も可能です。
+                </p>
+                <a
+                  href="tel:0120-316-710"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-[#062447]/70 bg-white/70 border border-[#062447]/10 rounded-full hover:bg-white/90 transition"
+                >
+                  📞 お電話でも相談できます
+                </a>
+              </div>
             </div>
 
             {/* メールフォーム（showMailForm === true のときのみ表示） */}
@@ -525,12 +830,12 @@ function App() {
                     <div className="mt-8">
                       <button
                         type="submit"
-                        className="w-full py-4 text-white font-bold bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_18px_50px_rgba(34,211,238,0.25)] hover:brightness-105 transition"
+                        className="w-full py-4 text-white font-bold bg-[#0A2540] hover:bg-[#143D66] rounded-full shadow-[0_18px_50px_rgba(10,37,64,0.25)] transition"
                       >
-                        無料で相談する
+                        今の状況を整理する（無料）
                       </button>
                       <p className="mt-4 text-[#062447]/50 text-xs text-center">
-                        営業なし ｜ 即日対応 ｜ お話を聞くだけOK
+                        ※ 結論を出す必要はありません
                       </p>
                     </div>
                   </form>
@@ -559,12 +864,12 @@ function App() {
           href="https://line.me/ti/p/AbtvfPG8Wt"
           target="_blank"
           rel="noreferrer"
-          className="block w-full py-4 text-center text-white font-bold bg-gradient-to-r from-emerald-500 to-green-400 rounded-full shadow-lg shadow-green-500/20"
+          className="block w-full py-4 text-center text-white font-bold bg-[#0A2540] hover:bg-[#143D66] rounded-full shadow-lg shadow-[#0A2540]/20"
         >
-          💬 LINEで相談する
+          今の状況を整理する（無料）
         </a>
         <p className="mt-2 text-[#062447]/50 text-xs text-center">
-          営業なし ｜ 即日対応 ｜ お話を聞くだけOK
+          ※ 結論を出す必要はありません
         </p>
       </div>
 
