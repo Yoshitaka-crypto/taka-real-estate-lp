@@ -331,9 +331,10 @@ function App() {
                 { label: '▶️', name: 'YouTube', href: 'https://www.youtube.com/channel/UCXj6VDr0Wur_DloCDewHMUw' },
                 { label: '@', name: 'Threads', href: 'https://www.threads.com/@t.fudosan?hl=ja' },
                 { label: '📷', name: 'Instagram', href: 'https://www.instagram.com/t.fudosan/' },
+                { label: '📝', name: 'note', href: 'https://note.com/merry_hornet4114' }, // note追加
               ]
               return (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-6">
                   {socials.map((sns, i) => (
                     <a
                       key={i}
