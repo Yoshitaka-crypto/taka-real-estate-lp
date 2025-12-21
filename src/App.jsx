@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import takaImage from './assets/taka.png'
+import heroImage from './assets/hero.png'
 
 function App() {
   const [formData, setFormData] = useState({
@@ -91,7 +92,7 @@ function App() {
           </div>
         </div>
       </header>
-
+      
       {/* ========== Hero / First View ========== */}
       <section>
         <div className={pageContainer}>
@@ -102,12 +103,12 @@ function App() {
               無料相談｜中立・安心
             </p>
             
-            {/* ✅ Hero画像（コンテナ制約を外して全幅表示） */}
-            <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen mb-8">
+            {/* ✅ Hero画像（固定高さ + 中央寄せ + 余白は背景色） */}
+            <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen mb-8 flex justify-center items-center bg-[#E8F6FF]">
               <img
-                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=400&fit=crop&q=80"
+                src={heroImage}
                 alt="不動産相談イメージ"
-                className="mx-auto w-full max-w-none h-48 sm:h-64 md:h-72 object-cover"
+                className="h-[360px] w-full max-w-[1920px] object-contain object-center select-none pointer-events-none"
               />
             </div>
             
@@ -115,7 +116,7 @@ function App() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#062447] leading-tight mb-4">
               不動産の悩み、<br />
               まず"整理"から。
-            </h1>
+          </h1>
             
             {/* リード */}
             <p className="text-[#062447]/70 text-base sm:text-lg leading-[1.85] mb-10 max-w-md mx-auto">
@@ -169,7 +170,7 @@ function App() {
                     <span className="text-cyan-500 text-lg font-bold flex-shrink-0">✓</span>
                     <span className="text-[#062447]/90 leading-[1.85] text-[15px] sm:text-base">{item}</span>
                   </div>
-                </div>
+            </div>
               ))}
             </div>
 
@@ -184,7 +185,7 @@ function App() {
                 💬 LINEで相談する
               </a>
               <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
-            </div>
+          </div>
         </div>
       </section>
 
@@ -214,13 +215,13 @@ function App() {
                   <div className="flex gap-4 items-start">
                     <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent flex-shrink-0">
                       {item.step}
-                    </div>
-                    <div>
+            </div>
+            <div>
                       <h3 className="font-bold text-[#062447] mb-2">{item.title}</h3>
                       <p className="text-[#062447]/70 text-[15px] sm:text-base leading-[1.85] whitespace-pre-line">{item.desc}</p>
                     </div>
                   </div>
-                </div>
+              </div>
               ))}
             </div>
 
@@ -229,7 +230,7 @@ function App() {
               <p className="text-cyan-600 text-sm">
                 💡 するべきことだけでなく「今は決めなくていいこと」も、あらかじめ整理します
               </p>
-            </div>
+          </div>
         </div>
       </section>
 
@@ -242,12 +243,12 @@ function App() {
               <p className="text-cyan-600 text-xs font-medium mb-3 tracking-wide uppercase">Results</p>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#062447] mb-3">
                 相談後に得られること
-              </h2>
+            </h2>
               <p className="text-[#062447]/70 text-sm leading-[1.85]">
                 決断を迫りません。<br />
                 安心のための整理がゴールです。
-              </p>
-            </div>
+            </p>
+          </div>
 
             {/* 得られること：1項目ずつ独立カード */}
             <div className={cardStack}>
@@ -276,7 +277,7 @@ function App() {
                 💬 LINEで相談する
               </a>
               <p className="mt-3 text-[#062447]/50 text-xs">話を聞くだけでもOK</p>
-            </div>
+          </div>
         </div>
       </section>
 
@@ -290,7 +291,7 @@ function App() {
               <h2 className="text-2xl sm:text-3xl font-bold text-[#062447]">
                 相談員について
               </h2>
-            </div>
+          </div>
 
             {/* プロフィールカード（下余白を追加してチップ群との距離を確保） */}
             <div className={`${largeCard} pb-10 sm:pb-12`}>
@@ -350,7 +351,7 @@ function App() {
                 </div>
               )
             })()}
-        </div>
+              </div>
       </section>
 
       {/* ========== FAQ ========== */}
@@ -387,10 +388,10 @@ function App() {
                   </p>
                 </div>
               ))}
-            </div>
+          </div>
         </div>
       </section>
-
+      
       {/* ========== 最終CTA + フォーム ========== */}
       <section id="form" className={sectionPadding}>
         <div className="max-w-[720px] mx-auto px-4 space-y-6 sm:space-y-8">
@@ -445,7 +446,7 @@ function App() {
                     メールで相談する
                   </a>
                 )}
-              </div>
+          </div>
 
               <p className="mt-4 text-center text-[#062447]/50 text-xs">
                 営業なし ｜ 即日対応 ｜ お話を聞くだけOK
@@ -466,7 +467,7 @@ function App() {
                 ) : (
                   <form id="mail" onSubmit={handleSubmit} className="bg-white/[0.62] border border-white/[0.38] rounded-2xl shadow-[0_12px_28px_rgba(2,20,60,0.12)] backdrop-blur-xl p-6 sm:p-8">
                     <div className="space-y-5">
-                      <div>
+            <div>
                         <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">お名前</label>
                         <input
                           type="text"
@@ -477,8 +478,8 @@ function App() {
                           className="w-full px-4 py-3 h-12 bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition"
                           required
                         />
-                      </div>
-                      <div>
+            </div>
+            <div>
                         <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">連絡先</label>
                         <input
                           type="text"
@@ -489,8 +490,8 @@ function App() {
                           className="w-full px-4 py-3 h-12 bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition"
                           required
                         />
-                      </div>
-                      <div>
+            </div>
+            <div>
                         <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">相談カテゴリ</label>
                         <select
                           name="category"
@@ -507,7 +508,7 @@ function App() {
                           <option value="賃貸">賃貸について</option>
                           <option value="その他">その他・まだ分からない</option>
                         </select>
-                      </div>
+            </div>
                       <div>
                         <label className="block text-[#062447]/80 text-sm font-medium px-1 py-2 mb-1">ご相談内容（任意）</label>
                         <textarea
@@ -518,8 +519,8 @@ function App() {
                           rows="4"
                           className="w-full px-4 py-4 min-h-[140px] bg-white/[0.85] border border-blue-900/10 rounded-xl text-[#062447] placeholder-[#062447]/40 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition resize-none"
                         />
-                      </div>
-                    </div>
+          </div>
+        </div>
 
                     <div className="mt-8">
                       <button
