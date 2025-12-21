@@ -334,16 +334,16 @@ function App() {
                 { label: '📝', name: 'note', href: 'https://note.com/merry_hornet4114' }, // note追加
               ]
               return (
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 gap-5">
                   {socials.map((sns, i) => (
                     <a
                       key={i}
                       href={sns.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full h-12 inline-flex items-center justify-center gap-2 rounded-full bg-white/[0.55] border border-white/[0.30] shadow-sm text-[#062447]/85 text-sm font-semibold hover:bg-white/[0.70] hover:shadow-md transition"
+                      className="w-full h-14 inline-flex items-center justify-center gap-2 rounded-full bg-white/[0.55] border border-white/[0.30] shadow-sm text-[#062447]/85 text-base font-semibold hover:bg-white/[0.70] hover:shadow-md transition"
                     >
-                      <span>{sns.label}</span>
+                      <span className="text-lg">{sns.label}</span>
                       <span>{sns.name}</span>
                     </a>
                   ))}
