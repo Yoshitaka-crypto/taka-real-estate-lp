@@ -144,7 +144,7 @@ select {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(30, 90, 168, 0.5);
-}
+  }
 
 /* ========== アニメーション ========== */
 @keyframes fadeIn {
